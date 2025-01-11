@@ -1,0 +1,2 @@
+def Cruise():
+    print("cru")
