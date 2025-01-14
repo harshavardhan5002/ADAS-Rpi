@@ -17,6 +17,10 @@ COLLISION_THRESHOLD = 10.0
 REF_DISTANCE = 10.0   # meters (arbitrary reference)
 REF_WIDTH_PX = 100.0  # pixels (arbitrary reference width)
 
+# Frame skip to reduce processing frequency
+FRAME_SKIP = 20  # Process every 5th frame
+frame_count = 0
+
 # -------------------------------------------------------
 # DISTANCE ESTIMATION (NAIVE)
 # -------------------------------------------------------
@@ -74,7 +78,12 @@ while True:
     if not ret:
         break
 
-    frame = imutils.resize(frame, width=600)
+    frame_count += 1
+    if frame_count % FRAME_SKIP != 0:
+        # Skip this frame to reduce processing load
+        continue
+
+    frame = imutils.resize(frame, width=800)  # Reduced frame resolution
     (h, w) = frame.shape[:2]
 
     # Prepare input blob
